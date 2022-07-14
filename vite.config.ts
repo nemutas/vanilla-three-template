@@ -4,7 +4,7 @@ import glsl from 'vite-plugin-glsl';
 
 export default defineConfig({
 	root: './src',
-	base: '/',
+	base: '/vanilla-three-template/',
 	plugins: [glsl()],
 	build: {
 		rollupOptions: {
