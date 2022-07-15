@@ -9,7 +9,7 @@ https://nemutas.github.io/vanilla-three-template/
 npm create vite@latest <project name> -- --template vanilla-ts
 ```
 ```
-npm i three lil-gui ress
+npm i three lil-gui ress gsap
 ```
 ```
 npm i -D @types/three vite-plugin-glsl sass gh-pages
