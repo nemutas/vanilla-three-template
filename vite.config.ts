@@ -3,7 +3,7 @@ import { defineConfig } from 'vite';
 import glsl from 'vite-plugin-glsl';
 
 export default defineConfig(({ mode }) => {
-	console.log(mode)
+	console.log('⚓ ' + mode)
 	return {
 		root: './src',
 		base: mode === 'development' ? '/' : '/vanilla-three-template/',
