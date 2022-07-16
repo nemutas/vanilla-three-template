@@ -6,7 +6,7 @@ import planeVert from './shader/planeVert.glsl';
 import { TCanvasBase } from './TCanvasBase';
 
 export class TCanvas extends TCanvasBase {
-	assets: Assets = {
+	private assets: Assets = {
 		background: { encoding: true, path: publicPath('/assets/background.jpg') }
 	}
 
