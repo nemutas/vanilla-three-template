@@ -24,8 +24,7 @@ export class TCanvas extends TCanvasBase {
 	private setScene = () => {
 		this.camera.position.z = 2
 		this.setOrbitControls()
-		const background = this.assets.background.data as THREE.Texture
-		this.scene.background = this.coveredBackgroundTexture(background)
+		this.scene.background = this.coveredBackgroundTexture(this.assets.background.data as THREE.Texture)
 	}
 
 	private setResizeCallback = () => {
