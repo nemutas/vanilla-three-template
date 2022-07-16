@@ -15,7 +15,7 @@ gh repo clone nemutas/vanilla-three-template
 npm i
 ```
 
-3. rename files.
+3. replacing text in files.
 
 `package.json`
 ```.json
