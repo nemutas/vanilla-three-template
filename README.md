@@ -4,6 +4,29 @@ Language used is TypeScript.
 
 https://nemutas.github.io/vanilla-three-template/
 
+# How to use
+1. clone this repositry.
+```
+gh repo clone nemutas/vanilla-three-template
+```
+
+2. install package using npm.
+```
+npm i
+```
+
+3. rename files.
+
+`package.json`
+```.json
+"name": "<your project name>",
+"homepage": "https://<your github account>.github.io/<your repositry name>/",
+```
+`vite.config.ts`
+```.ts
+base: mode === 'development' ? '/' : '/<your repositry name>/',
+```
+
 # Install
 ```
 npm create vite@latest <project name> -- --template vanilla-ts
