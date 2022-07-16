@@ -2,8 +2,11 @@ import GUI from 'lil-gui';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import Stats from 'three/examples/jsm/libs/stats.module';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer';
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass';
+import { Assets } from '../../types/tcanvas';
+import { getExtension } from '../utils';
 
 export abstract class TCanvasBase {
 	private container: HTMLDivElement
@@ -89,20 +92,18 @@ export abstract class TCanvasBase {
 		return this.composer
 	}
 
-	protected get orbitControls() {
+	protected setOrbitControls = (damping: number | false = 0.1) => {
 		if (!this._orbitControls) this._orbitControls = new OrbitControls(this.camera, this.renderer.domElement)
-		return this._orbitControls
-	}
 
-	protected setOrbitControlsDamping = (damping: number | false = 0.1) => {
 		if (typeof damping === 'number') {
-			this.orbitControls.enableDamping = true
-			this.orbitControls.dampingFactor = damping
+			this._orbitControls.enableDamping = true
+			this._orbitControls.dampingFactor = damping
 		} else {
-			this.orbitControls.enableDamping = false
-			this.orbitControls.dampingFactor = 0
+			this._orbitControls.enableDamping = false
+			this._orbitControls.dampingFactor = 0
 		}
-		this.enableOrbitControlsDamping = this.orbitControls.enableDamping
+		this.enableOrbitControlsDamping = this._orbitControls.enableDamping
+		return this._orbitControls
 	}
 
 	protected setPerspectiveCamera = (fov?: number, aspect?: number, near?: number, far?: number) => {
@@ -138,6 +139,27 @@ export abstract class TCanvasBase {
 			texture.matrix.setUvTransform(0, 0, 1, imageAspect / aspect, 0, 0.5, 0.5)
 		}
 		return texture
+	}
+
+	protected loadAssets = async (assets: Assets) => {
+		const textureLoader = new THREE.TextureLoader()
+		const gltfLoader = new GLTFLoader()
+
+		await Promise.all(
+			Object.values(assets).map(async v => {
+				const extension = getExtension(v.path)
+
+				if (['jpg', 'png'].includes(extension)) {
+					const texture = await textureLoader.loadAsync(v.path)
+					v.encoding && (texture.encoding = THREE.sRGBEncoding)
+					v.flipY !== undefined && (texture.flipY = v.flipY)
+					v.data = texture
+				} else if (['glb'].includes(extension)) {
+					const gltf = await gltfLoader.loadAsync(v.path)
+					v.data = gltf
+				}
+			})
+		)
 	}
 
 	// ------------------------------------------------------
