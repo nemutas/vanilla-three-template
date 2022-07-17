@@ -1,9 +1,8 @@
 import * as THREE from 'three';
-import { Assets } from '../../types/tcanvas';
 import { publicPath } from '../utils';
 import planeFrag from './shader/planeFrag.glsl';
 import planeVert from './shader/planeVert.glsl';
-import { TCanvasBase } from './TCanvasBase';
+import { Assets, TCanvasBase } from './TCanvasBase';
 
 export class TCanvas extends TCanvasBase {
 	private assets: Assets = {

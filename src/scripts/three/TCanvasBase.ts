@@ -2,11 +2,13 @@ import GUI from 'lil-gui';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import Stats from 'three/examples/jsm/libs/stats.module';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+import { GLTF, GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer';
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass';
-import { Assets } from '../../types/tcanvas';
-import { getExtension } from '../utils';
+
+export type Assets = {
+	[key in string]: { data?: THREE.Texture | GLTF; encoding?: boolean; flipY?: boolean; path: string }
+}
 
 export abstract class TCanvasBase {
 	private container: HTMLDivElement
@@ -146,13 +148,18 @@ export abstract class TCanvasBase {
 		return texture
 	}
 
+	private getExtension = (path: string) => {
+		const s = path.split('.')
+		return s[s.length - 1]
+	}
+
 	protected loadAssets = async (assets: Assets) => {
 		const textureLoader = new THREE.TextureLoader()
 		const gltfLoader = new GLTFLoader()
 
 		await Promise.all(
 			Object.values(assets).map(async v => {
-				const extension = getExtension(v.path)
+				const extension = this.getExtension(v.path)
 
 				if (['jpg', 'png'].includes(extension)) {
 					const texture = await textureLoader.loadAsync(v.path)
