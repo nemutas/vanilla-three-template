@@ -128,16 +128,21 @@ export abstract class TCanvasBase {
 		}
 	}
 
+	protected calcCoveredTextureScale = (texture: THREE.Texture, aspect: number, target?: THREE.Vector2) => {
+		const result = target ?? new THREE.Vector2()
+		const imageAspect = texture.image.width / texture.image.height
+
+		if (aspect < imageAspect) result.set(aspect / imageAspect, 1)
+		else result.set(1, imageAspect / aspect)
+
+		return result
+	}
+
 	protected coveredBackgroundTexture = (texture: THREE.Texture) => {
 		texture.matrixAutoUpdate = false
-		const imageAspect = texture.image.width / texture.image.height
-		const aspect = this.size.aspect
+		const scale = this.calcCoveredTextureScale(texture, this.size.aspect)
+		texture.matrix.setUvTransform(0, 0, scale.x, scale.y, 0, 0.5, 0.5)
 
-		if (aspect < imageAspect) {
-			texture.matrix.setUvTransform(0, 0, aspect / imageAspect, 1, 0, 0.5, 0.5)
-		} else {
-			texture.matrix.setUvTransform(0, 0, 1, imageAspect / aspect, 0, 0.5, 0.5)
-		}
 		return texture
 	}
 

@@ -7,7 +7,8 @@ import { TCanvasBase } from './TCanvasBase';
 
 export class TCanvas extends TCanvasBase {
 	private assets: Assets = {
-		background: { encoding: true, path: publicPath('/assets/background.jpg') }
+		background: { encoding: true, path: publicPath('/assets/wlop1.jpg') },
+		texture: { path: publicPath('/assets/wlop2.jpg') }
 	}
 
 	constructor(parentNode: ParentNode) {
@@ -34,9 +35,15 @@ export class TCanvas extends TCanvasBase {
 	}
 
 	private setModel = () => {
+		const texture = this.assets.texture.data as THREE.Texture
+
 		const geometry = new THREE.PlaneGeometry()
+		const aspect = geometry.parameters.width / geometry.parameters.height
 		const material = new THREE.ShaderMaterial({
-			uniforms: {},
+			uniforms: {
+				u_texture: { value: texture },
+				u_uvScale: { value: this.calcCoveredTextureScale(texture, aspect) }
+			},
 			vertexShader: planeVert,
 			fragmentShader: planeFrag,
 			side: THREE.DoubleSide
