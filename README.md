@@ -1,6 +1,6 @@
 # About
 This is a [Three.js](https://threejs.org/) development environment template using [Vite](https://ja.vitejs.dev/).<br>
-Language used is TypeScript.
+keywords：Vite / TypeScript / Three.js / GLSL
 
 https://nemutas.github.io/vanilla-three-template/
 
@@ -15,7 +15,7 @@ gh repo clone nemutas/vanilla-three-template
 npm i
 ```
 
-3. rename files.
+3. replacing text in files.
 
 `package.json`
 ```.json
