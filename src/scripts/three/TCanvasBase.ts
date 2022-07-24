@@ -7,7 +7,7 @@ import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass';
 
 export type Assets = {
-	[key in string]: { data?: THREE.Texture | GLTF; encoding?: boolean; flipY?: boolean; path: string }
+	[key in string]: { data?: THREE.Texture | GLTF; path: string; encoding?: boolean; flipY?: boolean }
 }
 
 export abstract class TCanvasBase {
@@ -161,7 +161,7 @@ export abstract class TCanvasBase {
 			Object.values(assets).map(async v => {
 				const extension = this.getExtension(v.path)
 
-				if (['jpg', 'png'].includes(extension)) {
+				if (['jpg', 'png', 'webp'].includes(extension)) {
 					const texture = await textureLoader.loadAsync(v.path)
 					v.encoding && (texture.encoding = THREE.sRGBEncoding)
 					v.flipY !== undefined && (texture.flipY = v.flipY)
